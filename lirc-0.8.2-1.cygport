@@ -3,6 +3,12 @@ HOMEPAGE="http://www.lirc.org/"
 SRC_URI="mirror://sourceforge/lirc/${P}.tar.bz2
          mirror://sourceforge/winlirc/winlirc-0.6.5.zip"
 
+PKG_NAMES="${PN} liblirc0 liblirc-devel"
+PKG_HINTS="setup lib devel"
+PKG_CONTENTS[0]='usr/bin/*.exe usr/sbin/ usr/share/'
+PKG_CONTENTS[1]='usr/bin/*.dll'
+PKG_CONTENTS[2]='usr/include/ usr/lib/'
+
 src_compile() {
 	cd ${S}
 	cygautoreconf

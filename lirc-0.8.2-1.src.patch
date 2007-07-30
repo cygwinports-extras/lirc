@@ -1,0 +1,143 @@
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x config.h.in -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.egg-info' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x Makefile.in -x makefile.in -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/lirc-0.8.2/configure.in src/lirc-0.8.2/configure.in
+--- origsrc/lirc-0.8.2/configure.in	2007-06-09 13:54:09.000000000 -0500
++++ src/lirc-0.8.2/configure.in	2007-07-30 12:10:22.331082100 -0500
+@@ -69,7 +69,7 @@
+     )]
+   )]
+ )
+-x_progs="irxevent xmode2"
++x_progs="irxevent\$(EXEEEXT) xmode2\$(EXEEXT)"
+ AC_PATH_XTRA
+ if test "$no_x" = "yes"; then
+   x_progs=
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x config.h.in -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.egg-info' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x Makefile.in -x makefile.in -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/lirc-0.8.2/drivers/lirc.h src/lirc-0.8.2/drivers/lirc.h
+--- origsrc/lirc-0.8.2/drivers/lirc.h	2007-04-14 10:57:21.000000000 -0500
++++ src/lirc-0.8.2/drivers/lirc.h	2007-07-30 13:00:54.026126100 -0500
+@@ -6,6 +6,10 @@
+ #if defined (__linux__)
+ #include <asm/types.h>
+ #include <linux/ioctl.h>
++#elif defined (__CYGWIN__)
++#define __USE_LINUX_IOCTL_DEFS
++#include <asm/types.h>
++#include <sys/ioctl.h>
+ #else
+ #include <sys/types.h>
+ #if defined (__NetBSD__)
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x config.h.in -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.egg-info' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x Makefile.in -x makefile.in -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/lirc-0.8.2/tools/Makefile.am src/lirc-0.8.2/tools/Makefile.am
+--- origsrc/lirc-0.8.2/tools/Makefile.am	2006-05-06 04:40:07.000000000 -0500
++++ src/lirc-0.8.2/tools/Makefile.am	2007-07-30 12:30:44.397318400 -0500
+@@ -7,7 +7,7 @@
+ 	lircrcd \
+ 	@vga_progs@ @x_progs@
+ 
+-AM_CPPFLAGS = @X_CFLAGS@
++AM_CPPFLAGS = @X_CFLAGS@ -I$(top_srcdir)
+ 
+ ## simple programs
+ irw_SOURCES = irw.c
+@@ -45,7 +45,7 @@
+ 
+ lib_LTLIBRARIES = liblirc_client.la
+ liblirc_client_la_SOURCES = lirc_client.c lirc_client.h
+-liblirc_client_la_LDFLAGS = -version-info 2:0:2
++liblirc_client_la_LDFLAGS = -version-info 2:0:2 -no-undefined
+ 
+ lircinclude_HEADERS = lirc_client.h
+ 
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x config.h.in -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.egg-info' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x Makefile.in -x makefile.in -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/lirc-0.8.2/tools/irsend.c src/lirc-0.8.2/tools/irsend.c
+--- origsrc/lirc-0.8.2/tools/irsend.c	2007-04-06 14:31:45.000000000 -0500
++++ src/lirc-0.8.2/tools/irsend.c	2007-07-30 12:32:02.475943100 -0500
+@@ -37,6 +37,7 @@
+ #include <sys/types.h>
+ #include <sys/stat.h>
+ #include <sys/un.h>
++#include <netinet/in.h>
+ #include <errno.h>
+ #include <signal.h>
+ #include <limits.h>
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x config.h.in -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.egg-info' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x Makefile.in -x makefile.in -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/lirc-0.8.2/tools/lirc_client.c src/lirc-0.8.2/tools/lirc_client.c
+--- origsrc/lirc-0.8.2/tools/lirc_client.c	2007-03-24 07:54:43.000000000 -0500
++++ src/lirc-0.8.2/tools/lirc_client.c	2007-07-30 12:26:09.742728200 -0500
+@@ -28,6 +28,11 @@
+ #include <sys/stat.h>
+ #include <sys/types.h>
+ #include <sys/wait.h>
++#ifdef __CYGWIN__
++#include <netdb.h>
++#include <netinet/in.h>
++#include <arpa/inet.h>
++#endif
+ 
+ #include "lirc_client.h"
+ 
+@@ -128,7 +133,13 @@
+ 
+ int lirc_init(char *prog,int verbose)
+ {
++#ifdef __CYGWIN__
++	struct hostent *hp;
++	struct sockaddr_in addr;
++	int fd;
++#else
+ 	struct sockaddr_un addr;
++#endif
+ 
+ 	/* connect to lircd */
+ 
+@@ -141,9 +152,27 @@
+ 		return(-1);
+ 	}
+ 	
++#ifdef __CYGWIN__
++	hp=(struct hostent*)gethostbyname("localhost");
++
++	if(hp==NULL)
++	{
++		lirc_printf("%s: could not resolve localhost\n",lirc_prog);
++		lirc_perror(lirc_prog);
++		free(lirc_prog);
++		lirc_prog=NULL;
++		return(-1);
++	}
++
++	memcpy((void*)&addr.sin_addr.s_addr,(void*)hp->h_addr,hp->h_length);
++	addr.sin_family=AF_INET;
++	addr.sin_port=htons(8765);
++	lirc_lircd=socket(PF_INET,SOCK_STREAM,0);
++#else
+ 	addr.sun_family=AF_UNIX;
+ 	strcpy(addr.sun_path,LIRCD);
+ 	lirc_lircd=socket(AF_UNIX,SOCK_STREAM,0);
++#endif
+ 	if(lirc_lircd==-1)
+ 	{
+ 		lirc_printf("%s: could not open socket\n",lirc_prog);
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x config.h.in -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.egg-info' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x Makefile.in -x makefile.in -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/lirc-0.8.2/tools/mode2.c src/lirc-0.8.2/tools/mode2.c
+--- origsrc/lirc-0.8.2/tools/mode2.c	2006-01-02 13:33:52.000000000 -0600
++++ src/lirc-0.8.2/tools/mode2.c	2007-07-30 13:02:55.683933300 -0500
+@@ -15,6 +15,10 @@
+ # include <config.h>
+ #endif
+ 
++#ifdef __CYGWIN__
++#define __USE_LINUX_IOCTL_DEFS
++#endif
++
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <unistd.h>
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4*' -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x config.h.in -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.egg-info' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x Makefile.in -x makefile.in -x configure -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/lirc-0.8.2/tools/xmode2.c src/lirc-0.8.2/tools/xmode2.c
+--- origsrc/lirc-0.8.2/tools/xmode2.c	2005-10-16 14:17:13.000000000 -0500
++++ src/lirc-0.8.2/tools/xmode2.c	2007-07-30 13:03:11.199756900 -0500
+@@ -40,6 +40,10 @@
+ # include <config.h>
+ #endif
+ 
++#ifdef __CYGWIN__
++#define __USE_LINUX_IOCTL_DEFS
++#endif
++
+ #include <stdio.h>
+ #include <string.h>
+ #include <stdlib.h>
