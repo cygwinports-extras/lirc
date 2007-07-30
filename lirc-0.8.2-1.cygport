@@ -3,7 +3,7 @@ HOMEPAGE="http://www.lirc.org/"
 SRC_URI="mirror://sourceforge/lirc/${P}.tar.bz2
          mirror://sourceforge/winlirc/winlirc-0.6.5.zip"
 
-PKG_NAMES="${PN} liblirc0 liblirc-devel"
+PKG_NAMES="${PN} liblirc_client0 liblirc_client-devel"
 PKG_HINTS="setup lib devel"
 PKG_CONTENTS[0]='usr/bin/*.exe usr/sbin/ usr/share/'
 PKG_CONTENTS[1]='usr/bin/*.dll'
@@ -21,8 +21,10 @@ src_install() {
 	cd ${B}/tools
 	cyginstall
 
-	newsbin ${S}/../winlirc.exe lircd.exe
-
 	dodir /usr/share/lirc
 	cp -r ${S}/remotes/ ${D}/usr/share/lirc/
+
+	newsbin ${S}/../winlirc.exe lircd.exe
+	docinto winlirc
+	dodoc ${S}/../{COPYING,README,changes.txt}
 }
