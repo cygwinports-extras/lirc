@@ -1,0 +1,22 @@
+DESCRIPTION="Linux Infrared Remote Control (with WinLIRC)"
+HOMEPAGE="http://www.lirc.org/"
+SRC_URI="mirror://sourceforge/lirc/${P}.tar.bz2
+         mirror://sourceforge/winlirc/winlirc-0.6.5.zip"
+
+src_compile() {
+	cd ${S}
+	cygautoreconf
+	cd ${B}
+	cygconf --with-driver=none
+	cygmake -C tools/
+}
+
+src_install() {
+	cd ${B}/tools
+	cyginstall
+
+	newsbin ${S}/../winlirc.exe lircd.exe
+
+	dodir /usr/share/lirc
+	cp -r ${S}/remotes/ ${D}/usr/share/lirc/
+}
