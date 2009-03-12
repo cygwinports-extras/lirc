@@ -5,7 +5,7 @@
    )]
  )
 -x_progs="irxevent xmode2"
-+x_progs="irxevent\$(EXEEEXT) xmode2\$(EXEEXT)"
++x_progs="irxevent\$(EXEEXT) xmode2\$(EXEEXT)"
  AC_PATH_XTRA
  if test "$no_x" = "yes"; then
    x_progs=

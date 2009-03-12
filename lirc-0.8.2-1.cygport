@@ -13,7 +13,7 @@ src_compile() {
 	cd ${S}
 	cygautoreconf
 	cd ${B}
-	cygconf --with-driver=none
+	cygconf --with-driver=userspace # !atilibusb,audio,hiddev
 	cygmake -C tools/
 }
 
